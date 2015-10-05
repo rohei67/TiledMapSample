@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="32" height="32" tilewidth="32" tileheight="32" nextobjectid="1">
+ <tileset firstgid="1" name="tileset" tilewidth="32" tileheight="32" tilecount="256">
+  <image source="tileset.png" width="512" height="512"/>
+ </tileset>
+ <tileset firstgid="257" name="Water" tilewidth="32" tileheight="32" tilecount="48">
+  <properties>
+   <property name="WaterFrame" value="3"/>
+  </properties>
+  <image source="water.jpg" width="256" height="192"/>
+  <tile id="24">
+   <properties>
+    <property name="WaterFrame" value="1"/>
+   </properties>
+  </tile>
+  <tile id="25">
+   <properties>
+    <property name="WaterFrame" value="2"/>
+   </properties>
+  </tile>
+  <tile id="26">
+   <properties>
+    <property name="WaterFrame" value="3"/>
+   </properties>
+  </tile>
+ </tileset>
+ <layer name="Background" width="32" height="32">
+  <data encoding="base64" compression="zlib">
+   eJzzZ2Bg8CcR7wDinWTooxYetX/U/uFoP8xcdExL+7HZdxINo8vD7J9BBfvR7TqJxZ/o8iegdq8Y4Himhv+Hsv20xqP2D6z9oHx2coDsRi4La2loD7byD70sBNlvA8S2QGxHZfuxlX/oZSHIfh8g9gViPxqGhSQjAsP8nwvEeUAcA8SxQBxHJ/tB/Bqo3+toaCcu+0G4B2o/LdMfoTCgt/3Ibhgo+5HxqP0D64aBtn80DmgbBgDL12S+
+  </data>
+ </layer>
+ <objectgroup name="objects"/>
+ <layer name="Foreground" width="32" height="32">
+  <data encoding="base64" compression="zlib">
+   eJy9lssuBEEUhtt177p3DUvXsGQQdu5h6RoegDfgDfAEeAI8ATazxaa32NlhJ75eTHLSjurTNV3zJ18qqanpv6vqP9UVRX/1BM/wovzmUhd0Qw8MwKBo01T6Nb3CG7zn9B+CYRiBCZgUbZpKv6ZP+ILvnP5TMA0lmIcFQ1uklmAZVmADNg2tVffwAI+OMVuwDTtwAIeG1iprJusy8JWWyY8a+muZ/Kmhv6ZFpc+Sk6K8NX/fs8v3HdLScnIExwX6utZYy8kJnHp6ncE5XIi+UGuszesSruBa9Pl+H7KkzesGbuFO9Pl8H5Laq4cGaIQmaE6NKWJe2n4laoFWaIN26IDO1Jj/5pXnDNH2K5G8G/RCH/RnPMvHX9uvRPJuMApjMG7wLgvfaupY3g1mYBbmDP+LhX9WHbsyJu8Gq7AG68Z3t66/K2PybrALe7Dv4V92jKsmYxb/xDt2jPPNmNU/jtzz982Y1T+K3POvJmNWf5d8MpZ1Jufx91HWmRza31IvIf0t9RLS31IvIf0t9RLS/xcOFnNz
+  </data>
+ </layer>
+</map>
