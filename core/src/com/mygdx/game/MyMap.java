@@ -1,120 +1,93 @@
 package com.mygdx.game;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.maps.MapLayer;
 import com.badlogic.gdx.maps.MapProperties;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTile;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
-import com.badlogic.gdx.maps.tiled.TiledMapTileSet;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
-
-import java.util.ArrayList;
-import java.util.HashMap;
+import com.badlogic.gdx.maps.tiled.tiles.AnimatedTiledMapTile;
+import com.badlogic.gdx.maps.tiled.tiles.StaticTiledMapTile;
+import com.badlogic.gdx.utils.Array;
 
 public class MyMap {
-	TiledMap tiledMap;
-	OrthogonalTiledMapRenderer tiledMapRenderer;
-	int mapPixelWidth;
-	int mapPixelHeight;
+	TiledMap _tiledMap;
+	OrthogonalTiledMapRenderer _tiledMapRenderer;
+	private int _mapPixelWidth;
+	private int _mapPixelHeight;
 
-	java.util.Map<String, TiledMapTile> waterTiles;
-	ArrayList<TiledMapTileLayer.Cell> waterCellList;
-	float elapsedSinceAnimation = 0.0f;
+	private static final int[] BACKGROUND = new int[]{0};
+	private static final int[] FOREGROUND = new int[]{2};
 
 	public MyMap() {
-		tiledMap = new TmxMapLoader().load("MyCrappyMap.tmx");
-		tiledMapRenderer = new OrthogonalTiledMapRenderer(tiledMap);
+		_tiledMap = new TmxMapLoader().load("MyCrappyMap.tmx");
+		_tiledMapRenderer = new OrthogonalTiledMapRenderer(_tiledMap);
 
-		MapProperties prop = tiledMap.getProperties();
+		calcMapPixel();
+
+		// get the water frame tiles
+		Array<StaticTiledMapTile> frameTiles = readAnimationTileSet();
+		// create the animated tiles
+		createAnimatedTiles(frameTiles);
+	}
+
+	private void calcMapPixel() {
+		MapProperties prop = _tiledMap.getProperties();
 		int mapWidth = prop.get("width", Integer.class);
 		int mapHeight = prop.get("height", Integer.class);
 		int tilePixelWidth = prop.get("tilewidth", Integer.class);
 		int tilePixelHeight = prop.get("tileheight", Integer.class);
 
-		mapPixelWidth = mapWidth * tilePixelWidth;
-		mapPixelHeight = mapHeight * tilePixelHeight;
-
-		// 水面タイルマップの読み込み
-		readWaterTileSet();
-		extractWaterMapCells();
+		_mapPixelWidth = mapWidth * tilePixelWidth;
+		_mapPixelHeight = mapHeight * tilePixelHeight;
 	}
 
-	private void readWaterTileSet() {
-		waterTiles = new HashMap<String, TiledMapTile>();
+	private boolean searchAnimationTile(TiledMapTile tile, String tileName) {
+		return tile.getProperties().containsKey("animation")
+				&& tile.getProperties().get("animation", String.class).equals(tileName);
+	}
 
-		TiledMapTileSet tileset = tiledMap.getTileSets().getTileSet("Water");
+	private Array<StaticTiledMapTile> readAnimationTileSet() {
+		Array<StaticTiledMapTile> frameTiles = new Array<StaticTiledMapTile>();
 
-		for (TiledMapTile tile : tileset) {
-			Object property = tile.getProperties().get("WaterFrame");
-			if (property != null)
-				waterTiles.put((String) property, tile);
+		for (TiledMapTile tile : _tiledMap.getTileSets().getTileSet("Water")) {
+			if (searchAnimationTile(tile, "water")) {
+				frameTiles.add((StaticTiledMapTile) tile);
+			}
 		}
+		return frameTiles;
 	}
 
-	private void extractWaterMapCells() {
-		waterCellList = new ArrayList<TiledMapTileLayer.Cell>();
-		TiledMapTileLayer layer = (TiledMapTileLayer) tiledMap.getLayers().get(0);
+	private void createAnimatedTiles(Array<StaticTiledMapTile> frameTiles) {
+		AnimatedTiledMapTile animatedTile = new AnimatedTiledMapTile(1 / 3f, frameTiles);
 
+		TiledMapTileLayer layer = (TiledMapTileLayer) _tiledMap.getLayers().get("Background");
 		for (int x = 0; x < layer.getWidth(); x++) {
 			for (int y = 0; y < layer.getHeight(); y++) {
 				TiledMapTileLayer.Cell cell = layer.getCell(x, y);
 
-				Object property = cell.getTile().getProperties().get("WaterFrame");
-				if (property != null) {
-					waterCellList.add(cell);
-				}
+				if (searchAnimationTile(cell.getTile(), "water"))
+					cell.setTile(animatedTile);
 			}
 		}
-	}
-
-	public void render(OrthographicCamera camera) {
-		waterMapTileAnimation();
-		tiledMapRenderer.setView(camera);
-		tiledMapRenderer.render();
-	}
-
-	private void waterMapTileAnimation() {
-		elapsedSinceAnimation += Gdx.graphics.getDeltaTime();
-		if (elapsedSinceAnimation > 0.5f) {
-			updateWaterAnimations();
-			elapsedSinceAnimation = 0.0f;
+		for (TiledMapTile tile : frameTiles) {
+			animatedTile.getProperties().putAll(tile.getProperties());
 		}
 	}
 
 	public void renderBackground(OrthographicCamera camera) {
-		waterMapTileAnimation();
-		renderMapLayer(camera, "Background");
+		renderMapLayer(camera, BACKGROUND);
 	}
 
 	public void renderForeground(OrthographicCamera camera) {
-		renderMapLayer(camera, "Foreground");
+		renderMapLayer(camera, FOREGROUND);
 	}
 
-	public void renderMapLayer(OrthographicCamera camera, String layerName) {
-		tiledMapRenderer.setView(camera);
-		tiledMapRenderer.getBatch().begin();
-		TiledMapTileLayer layer = (TiledMapTileLayer) tiledMap.getLayers().get(layerName);
-		if (layer != null)
-			tiledMapRenderer.renderTileLayer(layer);
-		tiledMapRenderer.getBatch().end();
-	}
-
-	private void updateWaterAnimations() {
-		for (TiledMapTileLayer.Cell cell : waterCellList) {
-			String property = (String) cell.getTile().getProperties().get("WaterFrame");
-			Integer currentAnimationFrame = Integer.parseInt(property);
-
-			currentAnimationFrame++;
-
-			if (currentAnimationFrame > waterTiles.size())
-				currentAnimationFrame = 1;
-			TiledMapTile newTile = waterTiles.get(currentAnimationFrame.toString());
-
-			cell.setTile(newTile);
-		}
+	public void renderMapLayer(OrthographicCamera camera, int[] layerNum) {
+		_tiledMapRenderer.setView(camera);
+		_tiledMapRenderer.render(layerNum);
 	}
 
 	public void switchVisibleLayer(int layerNum) {
@@ -123,19 +96,19 @@ public class MyMap {
 	}
 
 	public MapLayer getLayer(int n) {
-		return tiledMap.getLayers().get(n);
+		return _tiledMap.getLayers().get(n);
 	}
 
 	public int getWidth() {
-		return mapPixelWidth;
+		return _mapPixelWidth;
 	}
 
 	public int getHeight() {
-		return mapPixelHeight;
+		return _mapPixelHeight;
 	}
 
 	public void dispose() {
-		tiledMap.dispose();
-		tiledMapRenderer.dispose();
+		_tiledMap.dispose();
+		_tiledMapRenderer.dispose();
 	}
 }

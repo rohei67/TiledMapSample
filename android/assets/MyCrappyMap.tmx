@@ -10,17 +10,17 @@
   <image source="water.jpg" width="256" height="192"/>
   <tile id="24">
    <properties>
-    <property name="WaterFrame" value="1"/>
+    <property name="animation" value="water"/>
    </properties>
   </tile>
   <tile id="25">
    <properties>
-    <property name="WaterFrame" value="2"/>
+    <property name="animation" value="water"/>
    </properties>
   </tile>
   <tile id="26">
    <properties>
-    <property name="WaterFrame" value="3"/>
+    <property name="animation" value="water"/>
    </properties>
   </tile>
  </tileset>
@@ -32,7 +32,7 @@
  <objectgroup name="objects"/>
  <layer name="Foreground" width="32" height="32">
   <data encoding="base64" compression="zlib">
-   eJy9lssuBEEUhtt177p3DUvXsGQQdu5h6RoegDfgDfAEeAI8ATazxaa32NlhJ75eTHLSjurTNV3zJ18qqanpv6vqP9UVRX/1BM/wovzmUhd0Qw8MwKBo01T6Nb3CG7zn9B+CYRiBCZgUbZpKv6ZP+ILvnP5TMA0lmIcFQ1uklmAZVmADNg2tVffwAI+OMVuwDTtwAIeG1iprJusy8JWWyY8a+muZ/Kmhv6ZFpc+Sk6K8NX/fs8v3HdLScnIExwX6utZYy8kJnHp6ncE5XIi+UGuszesSruBa9Pl+H7KkzesGbuFO9Pl8H5Laq4cGaIQmaE6NKWJe2n4laoFWaIN26IDO1Jj/5pXnDNH2K5G8G/RCH/RnPMvHX9uvRPJuMApjMG7wLgvfaupY3g1mYBbmDP+LhX9WHbsyJu8Gq7AG68Z3t66/K2PybrALe7Dv4V92jKsmYxb/xDt2jPPNmNU/jtzz982Y1T+K3POvJmNWf5d8MpZ1Jufx91HWmRza31IvIf0t9RLS31IvIf0t9RLS/xcOFnNz
+   eJy9ljlOxTAURcPYM/aMgpJRUDIKSkZByShYAOwAdgCsAFgBsAKg+S3QpAU6OqBDnBRfssLDfnlJ/pWOLPn75+bZ146j6K+e4BlehN986oJu6IEBGHTaNNV+Sa/wBu8Z/YdgGEZgAiadNk21X9InfMF3Rv8pmIYZWIBFRVuklmAZVmADNhWtVvfwAI+eMVuwDTtwAIeKVittJusCWCVl8qOG/lImf2roL0l6niYnRXlL/tazy/oOaUk5OYLjAn19cyzl5AROjV5ncA4XTl9ZcyzVdQlXcO30Wb8PIUl13cAt3Dl9lu9DkpV6aIBGaILm1Jgi6pLWK1ELtEIbtEMHdKbG/FdXljNEWq9E7t2gF/qgP/Asi7+0Xoncu8EojMG4wrvi+ObZx+7dYBbmYF7xv9jxD+1jX8bcu8EqrMG68t218+/LmHs32IU92Df4Vzzj8mRM4594x55x1oxp/ePIX781Y1r/KPLXnydjWn+fLBkLnclZ/C0Kncll+2v2S5n+mv1Spr9mv5Tpr9kvZfr/AiQYcjc=
   </data>
  </layer>
 </map>

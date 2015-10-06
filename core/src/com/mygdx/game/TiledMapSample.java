@@ -95,27 +95,27 @@ public class TiledMapSample extends ApplicationAdapter implements InputProcessor
 	}
 
 	private void ScrollMap(KeyInput key) {
-		final int MAP_SCROLL_LENGTH = 10;
+		final int MAP_SCROLL_UNIT = 10;
 		final int centerX = GAME_WIDTH/2;
 		final int centerY = GAME_HEIGHT/2;
 
 		if (key.isPressing(Input.Keys.LEFT)) {
-			camera.translate(-MAP_SCROLL_LENGTH, 0);
+			camera.translate(-MAP_SCROLL_UNIT, 0);
 			if (camera.position.x < centerX)
 				camera.position.x = centerX;
 		}
 		if (key.isPressing(Input.Keys.RIGHT)) {
-			camera.translate(MAP_SCROLL_LENGTH, 0);
+			camera.translate(MAP_SCROLL_UNIT, 0);
 			if (camera.position.x > map.getWidth() - centerX)
 				camera.position.x = map.getWidth() - centerX;
 		}
 		if (key.isPressing(Input.Keys.UP)) {
-			camera.translate(0, MAP_SCROLL_LENGTH);
+			camera.translate(0, MAP_SCROLL_UNIT);
 			if (camera.position.y > map.getHeight() - centerY)
 				camera.position.y = map.getHeight() - centerY;
 		}
 		if (key.isPressing(Input.Keys.DOWN)) {
-			camera.translate(0, -MAP_SCROLL_LENGTH);
+			camera.translate(0, -MAP_SCROLL_UNIT);
 			if (camera.position.y < centerY)
 				camera.position.y = centerY;
 		}
